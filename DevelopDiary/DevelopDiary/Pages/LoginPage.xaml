@@ -1,0 +1,44 @@
+﻿<Page x:Class="DevelopDiary.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DevelopDiary.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1200"
+      Title="Авторизация">
+
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Width="150"
+                    Text="Введите логин:"/>
+                <TextBox 
+                    TextChanged="TxbLogin_TextChanged"
+                    x:Name="TxbLogin"/>
+            </StackPanel>
+            <StackPanel
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="150"
+                    Text="Введите пароль: "/>
+                <PasswordBox
+                    PasswordChanged="PsbPassword_PasswordChanged"
+                    x:Name="PsbPassword"/>
+            </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button Content="Войти"
+                        Name="BtnLogin"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnLogin_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

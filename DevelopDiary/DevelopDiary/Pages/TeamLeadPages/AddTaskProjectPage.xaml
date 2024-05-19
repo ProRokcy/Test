@@ -1,0 +1,79 @@
+﻿<Page x:Class="DevelopDiary.Pages.TeamLeadPages.AddTaskProjectPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DevelopDiary.Pages.TeamLeadPages"
+      mc:Ignorable="d" 
+       d:DesignHeight="700" d:DesignWidth="1200"
+      Title="Добавление задачи">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Opacity="0.25"
+            Margin="20"
+            Grid.Column="0"
+            Grid.RowSpan="4"
+            Panel.ZIndex="-2"
+            Background="Aqua">
+
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                        Grid.Column="0"
+                        Grid.Row="0">
+            <TextBlock Text="ТимЛид"
+                       Foreground="DarkBlue"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Фио"
+                       HorizontalAlignment="Center"
+                       Foreground="DarkBlue"
+                       Name="TxbFio"/>
+        </StackPanel>
+        <StackPanel  
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <Button x:Name="TaskBtn" Content="Задачи" Click="TaskBtn_Click" Width="250"/>
+            <Button x:Name="ProjectBtn" Content="Проекты" Click="ProjectBtn_Click" Width="250"/>
+            <Button x:Name="NotesBtn" Content="Заметки" Click="NotesBtn_Click" Width="250"/>
+            <Button x:Name="LoginPageBtn" Content="Другой пользователь" Click="LoginPageBtn_Click" Width="250"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Наименование:" Width="145" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TxbTitle" Height="25" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Описание:" Width="145"/>
+                    <TextBox x:Name="TxbDescrip" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Дедлайн:" Width="140" VerticalAlignment="Center"/>
+                    <DatePicker x:Name="DPDedLine" Width="153" Height="40"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="0" 
+                    Grid.Row="3"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <Button Name="BtnMail" Content="Почта" Click="BtnMail_Click"/>
+        </StackPanel>
+        <Button x:Name="BtnBakc" Content="Назад" Click="BtnBakc_Click" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <Button x:Name="AddBtn" Content="Добавить" Click="AddBtn_Click" Grid.Column="1" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+    </Grid>
+</Page>

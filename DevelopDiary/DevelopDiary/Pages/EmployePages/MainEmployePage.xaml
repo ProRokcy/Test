@@ -1,0 +1,129 @@
+﻿<Page x:Class="DevelopDiary.Pages.EmployePages.MainEmployePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DevelopDiary.Pages.EmployePages"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1200"
+      Title="Окно сотрудника">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Opacity="0.25"
+            Margin="20"
+            Grid.Column="0"
+            Grid.RowSpan="4"
+            Panel.ZIndex="-2"
+            Background="Aqua">
+
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                        Grid.Column="0"
+                        Grid.Row="0">
+            <TextBlock Text=" Сотрудник"
+                       Foreground="DarkBlue"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Фио"
+                       HorizontalAlignment="Center"
+                       Foreground="DarkBlue"
+                       Name="TxbFio"/>
+        </StackPanel>
+        <StackPanel  
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <Button x:Name="TaskBtn" Content="Задачи" Click="TaskBtn_Click" Width="250"/>
+            <Button x:Name="MyTaskBtn" Content="Мои задачи" Click="MyTaskBtn_Click" Width="250"/>
+            <Button x:Name="Notes" Content="Заметки" Click="Notes_Click" Width="250"/>
+            <Button x:Name="LoginPageBtn" Content="Другой пользователь" Click="LoginPageBtn_Click" Width="250"/>
+        </StackPanel>
+
+        <ListView x:Name="LViewTask" ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                  HorizontalContentAlignment ="Center" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Grid.Column="1"
+                  Margin="20"
+                  Width="850"
+                  Grid.Row="1" Grid.RowSpan="3">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="20" Width="800">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Grid.Row="0">
+                            <TextBlock Text="Наименование: "
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Text="{Binding Title}"
+                                       Foreground="CadetBlue"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0">
+                            <TextBlock Text="Описание: "
+                                        Foreground="DarkBlue"/>
+                            <TextBlock Text="{Binding Descripshion}"
+                                       Foreground="CadetBlue"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Grid.Row="0">
+                            <TextBlock Text="Дедлайн: "
+                                        Foreground="DarkBlue"/>
+                            <TextBlock Text="{Binding Deadline, StringFormat={}{0:dd dd yyyy hh:mm}}"
+                                       Foreground="CadetBlue"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="3" Content="Забрать" Name="DropBtn" Click="DropBtn_Click"/>
+
+
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackPanel Orientation="Horizontal" 
+                    VerticalAlignment="Top"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                            HorizontalAlignment="Center" Margin="0,93,0,0" Width="850">
+            <StackPanel>
+                <TextBlock Text="Поиск"
+                       Margin="10,0,0,5"/>
+                <TextBox Width="450"
+                     HorizontalAlignment="Left"
+                     Margin="10,0,0,0"
+                     TextChanged="Tbx_serhc_TextChanged"
+                     Name="Tbx_serhc" Height="29"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="0" 
+                    Grid.Row="3"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <Button Name="BtnMail" Content="Почта" Click="BtnMail_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

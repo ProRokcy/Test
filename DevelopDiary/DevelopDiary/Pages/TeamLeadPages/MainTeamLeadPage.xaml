@@ -1,0 +1,159 @@
+﻿<Page x:Class="DevelopDiary.Pages.TeamLeadPages.MainTeamLeadPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DevelopDiary.Pages.TeamLeadPages"
+      mc:Ignorable="d" 
+       d:DesignHeight="700" d:DesignWidth="1200"
+      Title="Окно ТимЛида">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Opacity="0.25"
+            Margin="20"
+            Grid.Column="0"
+            Grid.RowSpan="4"
+            Panel.ZIndex="-2"
+            Background="Aqua">
+
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                        Grid.Column="0"
+                        Grid.Row="0">
+            <TextBlock Text="ТимЛид"
+                       Foreground="DarkBlue"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Фио"
+                       HorizontalAlignment="Center"
+                       Foreground="DarkBlue"
+                       Name="TxbFio"/>
+        </StackPanel>
+        <StackPanel  
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <Button x:Name="TaskBtn" Content="Задачи" Click="TaskBtn_Click" Width="250"/>
+            <Button x:Name="ProjectBtn" Content="Проекты" Click="ProjectBtn_Click" Width="250"/>
+            <Button x:Name="NotesBtn" Content="Заметки" Click="NotesBtn_Click" Width="250"/>
+            <Button x:Name="LoginPageBtn" Content="Другой пользователь" Click="LoginPageBtn_Click" Width="250"/>
+        </StackPanel>
+
+        <ListView x:Name="LViewProject" ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                  HorizontalContentAlignment ="Center" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Grid.Column="1"
+                  Margin="20"
+                  Width="850"
+                  Grid.Row="1" Grid.RowSpan="3">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="20" Width="800">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Grid.Row="0">
+                            <TextBlock Text="Наименование: "
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Text="{Binding Title}"
+                                       Foreground="CadetBlue"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0">
+                            <TextBlock Text="Описание: "
+                                        Foreground="DarkBlue"/>
+                            <TextBlock Text="{Binding Descripshion}"
+                                       Foreground="CadetBlue"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Grid.Row="0">
+                            <TextBlock Text="Дедлайн: "
+                                        Foreground="DarkBlue"/>
+                            <TextBlock Text="{Binding Deadline, StringFormat={}{0:dd dd yyyy hh:mm}}"
+                                       Foreground="CadetBlue"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Grid.Row="0">
+                            <TextBlock Text="Состояние: "
+                                        Foreground="DarkBlue"/>
+                            <TextBlock Text="{Binding Status.Title}"
+                                       Foreground="CadetBlue"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="4" Content="Изменить" x:Name="EditBtn" Width="100" Click="EditBtn_Click"/>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackPanel Orientation="Horizontal" 
+                    VerticalAlignment="Top"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                            HorizontalAlignment="Center" Margin="0,93,0,0" Width="850">
+            <StackPanel>
+                <TextBlock Text="Поиск"
+                       Margin="10,0,0,5"/>
+                <TextBox Width="383"
+                     HorizontalAlignment="Left"
+                     Margin="10,0,0,0"
+                     TextChanged="Tbx_serhc_TextChanged"
+                     Name="Tbx_serhc" Height="29"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Сортировка"
+                       Margin="0,0,0,5"/>
+                <ComboBox Width="200"
+                                  SelectionChanged="CmbDedline_SelectionChanged"
+                              Name="CmbDedline" Height="31">
+                    <ComboBoxItem>По убыванию</ComboBoxItem>
+                    <ComboBoxItem>По возврастанию</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Фильтрация"
+                       Margin="0,0,0,5"/>
+                <ComboBox Width="200"
+                                  SelectionChanged="ComboBox_SelectionChanged"
+                              Name="CmbStatus" Height="30">
+                    <ComboBoxItem>Все</ComboBoxItem>
+                    <ComboBoxItem>Выполненые</ComboBoxItem>
+                    <ComboBoxItem>В работе</ComboBoxItem>
+                    <ComboBoxItem>В ожидании</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="0" 
+                    Grid.Row="3"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <Button Name="BtnMail" Content="Почта" Click="BtnMail_Click"/>
+        </StackPanel>
+        <Button Content="Создать проект" Width="200" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20" Name="AddProject" Click="AddProject_Click"/>
+    </Grid>
+</Page>
+
