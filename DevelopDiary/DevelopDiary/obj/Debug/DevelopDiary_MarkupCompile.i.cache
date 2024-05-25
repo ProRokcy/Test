@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\andre\OneDrive\Рабочий стол\ПП\диплом\DevelopDiary\DevelopDiary\App.xaml
-221622254305
+25-908435381
 2-197339111
-471030491281
+50249668851
 18477087349
-MainWindow.xaml;Pages\AddRequestPage.xaml;Pages\AdminPages\AddPage.xaml;Pages\AdminPages\EditPage.xaml;Pages\AdminPages\MainAdminPage.xaml;Pages\EmployePages\AddNotePage.xaml;Pages\EmployePages\EditNotePage.xaml;Pages\EmployePages\MainEmployePage.xaml;Pages\EmployePages\MyTaskPage.xaml;Pages\EmployePages\NotePage.xaml;Pages\LoginPage.xaml;Pages\MailPages\MainMailPage.xaml;Pages\MailPages\WriteMailPage.xaml;Pages\TeamLeadPages\AddNotePage.xaml;Pages\TeamLeadPages\AddProject.xaml;Pages\TeamLeadPages\AddTaskProjectPage.xaml;Pages\TeamLeadPages\EditNotePage.xaml;Pages\TeamLeadPages\EditProjectPage.xaml;Pages\TeamLeadPages\EditTaskPage.xaml;Pages\TeamLeadPages\MainTeamLeadPage.xaml;Pages\TeamLeadPages\NotePage.xaml;Pages\TeamLeadPages\TaskPage.xaml;
+MainWindow.xaml;Pages\AddRequestPage.xaml;Pages\AdminPages\AddPage.xaml;Pages\AdminPages\EditPage.xaml;Pages\AdminPages\MainAdminPage.xaml;Pages\EmployePages\AddNotePage.xaml;Pages\EmployePages\EditNotePage.xaml;Pages\EmployePages\MainEmployePage.xaml;Pages\EmployePages\MyTaskPage.xaml;Pages\EmployePages\NotePage.xaml;Pages\LoginPage.xaml;Pages\MailPages\AnswerMailPage.xaml;Pages\MailPages\MainMailPage.xaml;Pages\MailPages\ReadMailPage.xaml;Pages\MailPages\WriteMailPage.xaml;Pages\TeamLeadPages\AddNotePage.xaml;Pages\TeamLeadPages\AddProject.xaml;Pages\TeamLeadPages\AddTaskProjectPage.xaml;Pages\TeamLeadPages\EditNotePage.xaml;Pages\TeamLeadPages\EditProjectPage.xaml;Pages\TeamLeadPages\EditTaskPage.xaml;Pages\TeamLeadPages\MainTeamLeadPage.xaml;Pages\TeamLeadPages\NotePage.xaml;Pages\TeamLeadPages\RequestTMPage.xaml;Pages\TeamLeadPages\TaskPage.xaml;
 
 True
 

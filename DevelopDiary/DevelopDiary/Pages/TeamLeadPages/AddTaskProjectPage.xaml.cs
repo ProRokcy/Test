@@ -100,5 +100,10 @@ namespace DevelopDiary.Pages.TeamLeadPages
         {
             FrameApp.frmObj.Navigate(new MainMailPage());
         }
+
+        private void RequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FrameApp.frmObj.Navigate(new RequestTMPage());
+        }
     }
 }

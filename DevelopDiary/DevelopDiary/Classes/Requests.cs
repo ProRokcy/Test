@@ -19,9 +19,7 @@ namespace DevelopDiary.Classes
         public string FIO { get; set; }
         public string Phone { get; set; }
         public string Descrip { get; set; }
-        public Nullable<int> IdProject { get; set; }
     
-        public virtual Project Project { get; set; }
         public virtual StatusRequest StatusRequest { get; set; }
     }
 }

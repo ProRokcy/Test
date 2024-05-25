@@ -49,6 +49,7 @@
             <Button x:Name="TaskBtn" Content="Задачи" Click="TaskBtn_Click" Width="250"/>
             <Button x:Name="ProjectBtn" Content="Проекты" Click="ProjectBtn_Click" Width="250"/>
             <Button x:Name="Notes" Content="Заметки" Click="Notes_Click" Width="250"/>
+            <Button x:Name="RequestBtn" Content="Заявки" Click="RequestBtn_Click" Width="250"/>
             <Button x:Name="LoginPageBtn" Content="Другой пользователь" Click="LoginPageBtn_Click" Width="250"/>
         </StackPanel>
 

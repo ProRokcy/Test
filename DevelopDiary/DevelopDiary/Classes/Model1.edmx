@@ -58,7 +58,6 @@
           <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Descrip" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="IdProject" Type="int" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -184,18 +183,6 @@
             </Principal>
             <Dependent Role="Project">
               <PropertyRef Name="IdCreator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Requests_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
-          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Requests">
-              <PropertyRef Name="IdProject" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -341,10 +328,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
-          <AssociationSet Name="FK_Requests_Project" Association="Self.FK_Requests_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Requests" EntitySet="Requests" />
-          </AssociationSet>
           <AssociationSet Name="FK_Requests_StatusRequest" Association="Self.FK_Requests_StatusRequest">
             <End Role="StatusRequest" EntitySet="StatusRequest" />
             <End Role="Requests" EntitySet="Requests" />
@@ -445,10 +428,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
-          <AssociationSet Name="FK_Requests_Project" Association="DiaryModel.FK_Requests_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Requests" EntitySet="Requests" />
-          </AssociationSet>
           <AssociationSet Name="FK_Tasks_Project" Association="DiaryModel.FK_Tasks_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -469,7 +448,7 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -532,7 +511,6 @@
           <Property Name="Deadline" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Status" Relationship="DiaryModel.FK_Project_Status" FromRole="Project" ToRole="Status" />
           <NavigationProperty Name="Users" Relationship="DiaryModel.FK_Project_Users" FromRole="Project" ToRole="Users" />
-          <NavigationProperty Name="Requests" Relationship="DiaryModel.FK_Requests_Project" FromRole="Project" ToRole="Requests" />
           <NavigationProperty Name="Tasks" Relationship="DiaryModel.FK_Tasks_Project" FromRole="Project" ToRole="Tasks" />
         </EntityType>
         <EntityType Name="Requests">
@@ -544,8 +522,6 @@
           <Property Name="FIO" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Descrip" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IdProject" Type="Int32" />
-          <NavigationProperty Name="Project" Relationship="DiaryModel.FK_Requests_Project" FromRole="Requests" ToRole="Project" />
           <NavigationProperty Name="StatusRequest" Relationship="DiaryModel.FK_Requests_StatusRequest" FromRole="Requests" ToRole="StatusRequest" />
         </EntityType>
         <EntityType Name="Role">
@@ -701,18 +677,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Requests_Project">
-          <End Type="DiaryModel.Project" Role="Project" Multiplicity="0..1" />
-          <End Type="DiaryModel.Requests" Role="Requests" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Requests">
-              <PropertyRef Name="IdProject" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Tasks_Project">
           <End Type="DiaryModel.Project" Role="Project" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -775,7 +739,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -857,7 +821,6 @@
           <EntitySetMapping Name="Requests">
             <EntityTypeMapping TypeName="DiaryModel.Requests">
               <MappingFragment StoreEntitySet="Requests">
-                <ScalarProperty Name="IdProject" ColumnName="IdProject" />
                 <ScalarProperty Name="Descrip" ColumnName="Descrip" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="FIO" ColumnName="FIO" />
@@ -927,7 +890,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

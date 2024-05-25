@@ -179,7 +179,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\MailPages\AnswerMailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\MailPages\MainMailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MailPages\ReadMailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\TeamLeadPages\RequestTMPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TeamLeadPages\TaskPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -255,8 +267,14 @@
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MailPages\AnswerMailPage.xaml.cs">
+      <DependentUpon>AnswerMailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MailPages\MainMailPage.xaml.cs">
       <DependentUpon>MainMailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MailPages\ReadMailPage.xaml.cs">
+      <DependentUpon>ReadMailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MailPages\WriteMailPage.xaml.cs">
       <DependentUpon>WriteMailPage.xaml</DependentUpon>
@@ -284,6 +302,9 @@
     </Compile>
     <Compile Include="Pages\TeamLeadPages\NotePage.xaml.cs">
       <DependentUpon>NotePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TeamLeadPages\RequestTMPage.xaml.cs">
+      <DependentUpon>RequestTMPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TeamLeadPages\TaskPage.xaml.cs">
       <DependentUpon>TaskPage.xaml</DependentUpon>

@@ -1,0 +1,71 @@
+﻿<Page x:Class="DevelopDiary.Pages.MailPages.AnswerMailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DevelopDiary.Pages.MailPages"
+      mc:Ignorable="d" 
+       d:DesignHeight="700" d:DesignWidth="1200"
+      Title="написать сообщение">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Opacity="0.25"
+            Margin="20"
+            Grid.Column="0"
+            Grid.RowSpan="4"
+            Panel.ZIndex="-2"
+            Background="Aqua">
+
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                        Grid.Column="0"
+                        Grid.Row="0">
+            <TextBlock Text="ТимЛид"
+                       Name="RoleTxt"
+                       Foreground="DarkBlue"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Фио"
+                       HorizontalAlignment="Center"
+                       Foreground="DarkBlue"
+                       Name="TxbFio"/>
+        </StackPanel>
+        <StackPanel  
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <Button x:Name="WriteBtn" Content="Написать" Click="WriteBtn_Click" Width="250"/>
+            <Button x:Name="IncomingBtn" Content="Входящие" Click="IncomingBtn_Click" Width="250"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"
+                    Grid.RowSpan="2" Grid.Column="1"
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Адресант:" Width="155" VerticalAlignment="Center"/>
+                <ComboBox x:Name="CmbEmploye" Width="190" />
+            </StackPanel>
+            <TextBlock Text="Содержание" HorizontalAlignment="Left"/>
+            <TextBox Name="TxbContent" Height="192" Width="838" TextWrapping="Wrap"/>
+        </StackPanel>
+        <Button x:Name="AddMailBtn" Content="Ответить" Click="AddMailBtn_Click" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30"/>
+        <StackPanel Grid.Column="0" 
+                    Grid.Row="3"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <Button Name="ExistBtn" Content="Главное меню" Click="ExistBtn_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

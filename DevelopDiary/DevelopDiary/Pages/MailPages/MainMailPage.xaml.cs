@@ -65,10 +65,9 @@ namespace DevelopDiary.Pages.MailPages
         {
             try
             {
+
                 mail.IdMailStatus = 1;
                 OdbConnectHelper.entObj.SaveChanges();
-                MessageBox.Show("Сообщение прочитано", "Уведомление", MessageBoxButton.OK);
-                FrameApp.frmObj.Navigate(new MainMailPage());
             }
             catch (Exception ex)
             {
@@ -79,6 +78,7 @@ namespace DevelopDiary.Pages.MailPages
         {
             dynamic k = (sender as Button).DataContext;
             SelectedTask(k);
+            FrameApp.frmObj.Navigate(new ReadMailPage(k)); 
         }
         private void WriteBtn_Click(object sender, RoutedEventArgs e)
         {

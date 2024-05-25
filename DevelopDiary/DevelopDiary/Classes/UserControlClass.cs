@@ -9,6 +9,8 @@ namespace DevelopDiary.Classes
     public class UserControlClass
     {
         public static int IdEmploye { get; set; }
+
+        public static int IdMail { get; set; }
         public static int IdProject { get; set; }
     }
 }

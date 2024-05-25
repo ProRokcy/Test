@@ -71,10 +71,6 @@
       <End Role="Users" EntitySet="Users" />
       <End Role="Project" EntitySet="Project" />
     </AssociationSet>
-    <AssociationSet Name="FK_Requests_Project" Association="DiaryModel.FK_Requests_Project">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="Requests" EntitySet="Requests" />
-    </AssociationSet>
     <AssociationSet Name="FK_Tasks_Project" Association="DiaryModel.FK_Tasks_Project">
       <End Role="Project" EntitySet="Project" />
       <End Role="Tasks" EntitySet="Tasks" />
@@ -158,7 +154,6 @@
     <Property Name="Deadline" Type="DateTime" Precision="0" />
     <NavigationProperty Name="Status" Relationship="DiaryModel.FK_Project_Status" FromRole="Project" ToRole="Status" />
     <NavigationProperty Name="Users" Relationship="DiaryModel.FK_Project_Users" FromRole="Project" ToRole="Users" />
-    <NavigationProperty Name="Requests" Relationship="DiaryModel.FK_Requests_Project" FromRole="Project" ToRole="Requests" />
     <NavigationProperty Name="Tasks" Relationship="DiaryModel.FK_Tasks_Project" FromRole="Project" ToRole="Tasks" />
   </EntityType>
   <EntityType Name="Requests">
@@ -170,8 +165,6 @@
     <Property Name="FIO" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Phone" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Descrip" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="IdProject" Type="Int32" />
-    <NavigationProperty Name="Project" Relationship="DiaryModel.FK_Requests_Project" FromRole="Requests" ToRole="Project" />
     <NavigationProperty Name="StatusRequest" Relationship="DiaryModel.FK_Requests_StatusRequest" FromRole="Requests" ToRole="StatusRequest" />
   </EntityType>
   <EntityType Name="Role">
@@ -324,18 +317,6 @@
       </Principal>
       <Dependent Role="Project">
         <PropertyRef Name="IdCreator" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Requests_Project">
-    <End Type="DiaryModel.Project" Role="Project" Multiplicity="0..1" />
-    <End Type="DiaryModel.Requests" Role="Requests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Requests">
-        <PropertyRef Name="IdProject" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

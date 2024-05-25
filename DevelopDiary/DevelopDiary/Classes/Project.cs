@@ -17,7 +17,6 @@ namespace DevelopDiary.Classes
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Project()
         {
-            this.Requests = new HashSet<Requests>();
             this.Tasks = new HashSet<Tasks>();
         }
     
@@ -30,8 +29,6 @@ namespace DevelopDiary.Classes
     
         public virtual Status Status { get; set; }
         public virtual Users Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Requests> Requests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }
     }

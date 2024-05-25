@@ -77,7 +77,6 @@
     <EntitySetMapping Name="Requests">
       <EntityTypeMapping TypeName="DiaryModel.Requests">
         <MappingFragment StoreEntitySet="Requests">
-          <ScalarProperty Name="IdProject" ColumnName="IdProject" />
           <ScalarProperty Name="Descrip" ColumnName="Descrip" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="FIO" ColumnName="FIO" />

@@ -38,12 +38,13 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="BtnLogin_Click"/>
-                <Button Content="Подать заявку"
-                        Name="BtnRequest"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Click="BtnRequest_Click"/>
             </StackPanel>
         </StackPanel>
+        <Button Content="Подать заявку"
+                        Name="BtnRequest"
+                        HorizontalAlignment="Right"
+                        Margin="50"
+                        VerticalAlignment="Top"
+                        Click="BtnRequest_Click"/>
     </Grid>
 </Page>

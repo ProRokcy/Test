@@ -53,7 +53,6 @@
     <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Descrip" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="IdProject" Type="int" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -179,18 +178,6 @@
       </Principal>
       <Dependent Role="Project">
         <PropertyRef Name="IdCreator" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Requests_Project">
-    <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
-    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Requests">
-        <PropertyRef Name="IdProject" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -335,10 +322,6 @@
     <AssociationSet Name="FK_Project_Users" Association="Self.FK_Project_Users">
       <End Role="Users" EntitySet="Users" />
       <End Role="Project" EntitySet="Project" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Requests_Project" Association="Self.FK_Requests_Project">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="Requests" EntitySet="Requests" />
     </AssociationSet>
     <AssociationSet Name="FK_Requests_StatusRequest" Association="Self.FK_Requests_StatusRequest">
       <End Role="StatusRequest" EntitySet="StatusRequest" />
