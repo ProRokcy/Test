@@ -64,7 +64,7 @@
                     Grid.Row="3"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
-            <Button Name="ExistBtn" Content="Выйти" Click="ExistBtn_Click"/>
+            <Button Name="ExistBtn" Content="Главное меню" Click="ExistBtn_Click"/>
         </StackPanel>
     </Grid>
 </Page>

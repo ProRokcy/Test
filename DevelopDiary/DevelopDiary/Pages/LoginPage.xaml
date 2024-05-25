@@ -32,12 +32,17 @@
             </StackPanel>
             <StackPanel
                 HorizontalAlignment="Center"
-                Orientation="Horizontal">
+                Orientation="Vertical">
                 <Button Content="Войти"
                         Name="BtnLogin"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="BtnLogin_Click"/>
+                <Button Content="Подать заявку"
+                        Name="BtnRequest"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="BtnRequest_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

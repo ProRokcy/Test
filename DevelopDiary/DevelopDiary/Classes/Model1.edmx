@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище DiaryModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище DiaryModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="LoginStatus">
           <Key>
             <PropertyRef Name="Id" />
@@ -49,6 +49,17 @@
           <Property Name="IdCreator" Type="int" Nullable="false" />
           <Property Name="Deadline" Type="date" />
         </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdStatus" Type="int" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Descrip" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IdProject" Type="int" />
+        </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="Id" />
@@ -57,6 +68,13 @@
           <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusRequest">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -169,6 +187,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Requests_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="IdProject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_StatusRequest">
+          <End Role="StatusRequest" Type="Self.StatusRequest" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusRequest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="IdStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_Project">
           <End Role="Project" Type="Self.Project" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -268,8 +310,10 @@
           <EntitySet Name="MailStatus" EntityType="Self.MailStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notes" EntityType="Self.Notes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusRequest" EntityType="Self.StatusRequest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -297,6 +341,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
+          <AssociationSet Name="FK_Requests_Project" Association="Self.FK_Requests_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_StatusRequest" Association="Self.FK_Requests_StatusRequest">
+            <End Role="StatusRequest" EntitySet="StatusRequest" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tasks_Project" Association="Self.FK_Tasks_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -318,314 +370,11 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DiaryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="LoginStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Users_LoginStatus" FromRole="LoginStatus" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="Mails">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdSender" Type="Int32" Nullable="false" />
-          <Property Name="IdRecipient" Type="Int32" Nullable="false" />
-          <Property Name="IdMailStatus" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MailStatus" Relationship="Self.FK_Mails_MailStatus" FromRole="Mails" ToRole="MailStatus" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Mails_Users" FromRole="Mails" ToRole="Users" />
-          <NavigationProperty Name="Users1" Relationship="Self.FK_Mails_Users1" FromRole="Mails" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="MailStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Mails" Relationship="Self.FK_Mails_MailStatus" FromRole="MailStatus" ToRole="Mails" />
-        </EntityType>
-        <EntityType Name="Notes">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ContentNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdWriter" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Notes_Users" FromRole="Notes" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="Project">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Descripshion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IdStastus" Type="Int32" Nullable="false" />
-          <Property Name="IdCreator" Type="Int32" Nullable="false" />
-          <Property Name="Deadline" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_Project_Status" FromRole="Project" ToRole="Status" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Project_Users" FromRole="Project" ToRole="Users" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Project" FromRole="Project" ToRole="Tasks" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Role" FromRole="Role" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="Status">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Project" Relationship="Self.FK_Project_Status" FromRole="Status" ToRole="Project" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Status" FromRole="Status" ToRole="Tasks" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="Tasks">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdExecutor" Type="Int32" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Descripshion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IdStatus" Type="Int32" Nullable="false" />
-          <Property Name="IdProject" Type="Int32" Nullable="false" />
-          <Property Name="Deadline" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Project" Relationship="Self.FK_Tasks_Project" FromRole="Tasks" ToRole="Project" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_Tasks_Status" FromRole="Tasks" ToRole="Status" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Tasks_Users" FromRole="Tasks" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FIO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdRole" Type="Int32" Nullable="false" />
-          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DateLastLogin" Type="DateTime" Precision="3" />
-          <Property Name="IdTypeLogin" Type="Int32" />
-          <NavigationProperty Name="LoginStatus" Relationship="Self.FK_Users_LoginStatus" FromRole="Users" ToRole="LoginStatus" />
-          <NavigationProperty Name="Mails" Relationship="Self.FK_Mails_Users" FromRole="Users" ToRole="Mails" />
-          <NavigationProperty Name="Mails1" Relationship="Self.FK_Mails_Users1" FromRole="Users" ToRole="Mails" />
-          <NavigationProperty Name="Notes" Relationship="Self.FK_Notes_Users" FromRole="Users" ToRole="Notes" />
-          <NavigationProperty Name="Project" Relationship="Self.FK_Project_Users" FromRole="Users" ToRole="Project" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_Users_Role" FromRole="Users" ToRole="Role" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Users" FromRole="Users" ToRole="Tasks" />
-        </EntityType>
-        <Association Name="FK_Users_LoginStatus">
-          <End Role="LoginStatus" Type="Self.LoginStatus" Multiplicity="0..1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LoginStatus">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="IdTypeLogin" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Mails_MailStatus">
-          <End Role="MailStatus" Type="Self.MailStatus" Multiplicity="1" />
-          <End Role="Mails" Type="Self.Mails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MailStatus">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Mails">
-              <PropertyRef Name="IdMailStatus" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Mails_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Mails" Type="Self.Mails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Mails">
-              <PropertyRef Name="IdSender" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Mails_Users1">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Mails" Type="Self.Mails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Mails">
-              <PropertyRef Name="IdRecipient" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Notes_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Notes" Type="Self.Notes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notes">
-              <PropertyRef Name="IdWriter" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Project_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Project" Type="Self.Project" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Project">
-              <PropertyRef Name="IdStastus" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Project_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Project" Type="Self.Project" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Project">
-              <PropertyRef Name="IdCreator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tasks_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Tasks">
-              <PropertyRef Name="IdProject" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="IdRole" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tasks_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Tasks">
-              <PropertyRef Name="IdStatus" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tasks_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Tasks">
-              <PropertyRef Name="IdExecutor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="DiaryEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="LoginStatus" EntityType="Self.LoginStatus" />
-          <EntitySet Name="Mails" EntityType="Self.Mails" />
-          <EntitySet Name="MailStatus" EntityType="Self.MailStatus" />
-          <EntitySet Name="Notes" EntityType="Self.Notes" />
-          <EntitySet Name="Project" EntityType="Self.Project" />
-          <EntitySet Name="Role" EntityType="Self.Role" />
-          <EntitySet Name="Status" EntityType="Self.Status" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="Tasks" EntityType="Self.Tasks" />
-          <EntitySet Name="Users" EntityType="Self.Users" />
-          <AssociationSet Name="FK_Users_LoginStatus" Association="Self.FK_Users_LoginStatus">
-            <End Role="LoginStatus" EntitySet="LoginStatus" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Mails_MailStatus" Association="Self.FK_Mails_MailStatus">
-            <End Role="MailStatus" EntitySet="MailStatus" />
-            <End Role="Mails" EntitySet="Mails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Mails_Users" Association="Self.FK_Mails_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Mails" EntitySet="Mails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Mails_Users1" Association="Self.FK_Mails_Users1">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Mails" EntitySet="Mails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notes_Users" Association="Self.FK_Notes_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Notes" EntitySet="Notes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Project_Status" Association="Self.FK_Project_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Project" EntitySet="Project" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Project_Users" Association="Self.FK_Project_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Project" EntitySet="Project" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Project" Association="Self.FK_Tasks_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Role" Association="Self.FK_Users_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Status" Association="Self.FK_Tasks_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Users" Association="Self.FK_Tasks_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -656,6 +405,70 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="LoginStatus" EntityType="DiaryModel.LoginStatus" />
+          <EntitySet Name="Mails" EntityType="DiaryModel.Mails" />
+          <EntitySet Name="MailStatus" EntityType="DiaryModel.MailStatus" />
+          <EntitySet Name="Notes" EntityType="DiaryModel.Notes" />
+          <EntitySet Name="Project" EntityType="DiaryModel.Project" />
+          <EntitySet Name="Requests" EntityType="DiaryModel.Requests" />
+          <EntitySet Name="Role" EntityType="DiaryModel.Role" />
+          <EntitySet Name="Status" EntityType="DiaryModel.Status" />
+          <EntitySet Name="StatusRequest" EntityType="DiaryModel.StatusRequest" />
+          <EntitySet Name="sysdiagrams" EntityType="DiaryModel.sysdiagrams" />
+          <EntitySet Name="Tasks" EntityType="DiaryModel.Tasks" />
+          <EntitySet Name="Users" EntityType="DiaryModel.Users" />
+          <AssociationSet Name="FK_Users_LoginStatus" Association="DiaryModel.FK_Users_LoginStatus">
+            <End Role="LoginStatus" EntitySet="LoginStatus" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mails_MailStatus" Association="DiaryModel.FK_Mails_MailStatus">
+            <End Role="MailStatus" EntitySet="MailStatus" />
+            <End Role="Mails" EntitySet="Mails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mails_Users" Association="DiaryModel.FK_Mails_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Mails" EntitySet="Mails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mails_Users1" Association="DiaryModel.FK_Mails_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Mails" EntitySet="Mails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notes_Users" Association="DiaryModel.FK_Notes_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notes" EntitySet="Notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Status" Association="DiaryModel.FK_Project_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Users" Association="DiaryModel.FK_Project_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Project" Association="DiaryModel.FK_Requests_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Project" Association="DiaryModel.FK_Tasks_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_StatusRequest" Association="DiaryModel.FK_Requests_StatusRequest">
+            <End Role="StatusRequest" EntitySet="StatusRequest" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role" Association="DiaryModel.FK_Users_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Status" Association="DiaryModel.FK_Tasks_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Users" Association="DiaryModel.FK_Tasks_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -668,114 +481,306 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="LoginStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="DiaryModel.FK_Users_LoginStatus" FromRole="LoginStatus" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Mails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdSender" Type="Int32" Nullable="false" />
+          <Property Name="IdRecipient" Type="Int32" Nullable="false" />
+          <Property Name="IdMailStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MailStatus" Relationship="DiaryModel.FK_Mails_MailStatus" FromRole="Mails" ToRole="MailStatus" />
+          <NavigationProperty Name="Users" Relationship="DiaryModel.FK_Mails_Users" FromRole="Mails" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="DiaryModel.FK_Mails_Users1" FromRole="Mails" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="MailStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mails" Relationship="DiaryModel.FK_Mails_MailStatus" FromRole="MailStatus" ToRole="Mails" />
+        </EntityType>
+        <EntityType Name="Notes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContentNote" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdWriter" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="DiaryModel.FK_Notes_Users" FromRole="Notes" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Descripshion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdStastus" Type="Int32" Nullable="false" />
+          <Property Name="IdCreator" Type="Int32" Nullable="false" />
+          <Property Name="Deadline" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Status" Relationship="DiaryModel.FK_Project_Status" FromRole="Project" ToRole="Status" />
+          <NavigationProperty Name="Users" Relationship="DiaryModel.FK_Project_Users" FromRole="Project" ToRole="Users" />
+          <NavigationProperty Name="Requests" Relationship="DiaryModel.FK_Requests_Project" FromRole="Project" ToRole="Requests" />
+          <NavigationProperty Name="Tasks" Relationship="DiaryModel.FK_Tasks_Project" FromRole="Project" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdStatus" Type="Int32" Nullable="false" />
+          <Property Name="FIO" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Descrip" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdProject" Type="Int32" />
+          <NavigationProperty Name="Project" Relationship="DiaryModel.FK_Requests_Project" FromRole="Requests" ToRole="Project" />
+          <NavigationProperty Name="StatusRequest" Relationship="DiaryModel.FK_Requests_StatusRequest" FromRole="Requests" ToRole="StatusRequest" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="DiaryModel.FK_Users_Role" FromRole="Role" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Project" Relationship="DiaryModel.FK_Project_Status" FromRole="Status" ToRole="Project" />
+          <NavigationProperty Name="Tasks" Relationship="DiaryModel.FK_Tasks_Status" FromRole="Status" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="StatusRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Requests" Relationship="DiaryModel.FK_Requests_StatusRequest" FromRole="StatusRequest" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdExecutor" Type="Int32" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Descripshion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdStatus" Type="Int32" Nullable="false" />
+          <Property Name="IdProject" Type="Int32" Nullable="false" />
+          <Property Name="Deadline" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Project" Relationship="DiaryModel.FK_Tasks_Project" FromRole="Tasks" ToRole="Project" />
+          <NavigationProperty Name="Status" Relationship="DiaryModel.FK_Tasks_Status" FromRole="Tasks" ToRole="Status" />
+          <NavigationProperty Name="Users" Relationship="DiaryModel.FK_Tasks_Users" FromRole="Tasks" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdRole" Type="Int32" Nullable="false" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateLastLogin" Type="DateTime" Precision="3" />
+          <Property Name="IdTypeLogin" Type="Int32" />
+          <NavigationProperty Name="LoginStatus" Relationship="DiaryModel.FK_Users_LoginStatus" FromRole="Users" ToRole="LoginStatus" />
+          <NavigationProperty Name="Mails" Relationship="DiaryModel.FK_Mails_Users" FromRole="Users" ToRole="Mails" />
+          <NavigationProperty Name="Mails1" Relationship="DiaryModel.FK_Mails_Users1" FromRole="Users" ToRole="Mails" />
+          <NavigationProperty Name="Notes" Relationship="DiaryModel.FK_Notes_Users" FromRole="Users" ToRole="Notes" />
+          <NavigationProperty Name="Project" Relationship="DiaryModel.FK_Project_Users" FromRole="Users" ToRole="Project" />
+          <NavigationProperty Name="Role" Relationship="DiaryModel.FK_Users_Role" FromRole="Users" ToRole="Role" />
+          <NavigationProperty Name="Tasks" Relationship="DiaryModel.FK_Tasks_Users" FromRole="Users" ToRole="Tasks" />
+        </EntityType>
+        <Association Name="FK_Users_LoginStatus">
+          <End Type="DiaryModel.LoginStatus" Role="LoginStatus" Multiplicity="0..1" />
+          <End Type="DiaryModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoginStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="IdTypeLogin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mails_MailStatus">
+          <End Type="DiaryModel.MailStatus" Role="MailStatus" Multiplicity="1" />
+          <End Type="DiaryModel.Mails" Role="Mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MailStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mails">
+              <PropertyRef Name="IdMailStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mails_Users">
+          <End Type="DiaryModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="DiaryModel.Mails" Role="Mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mails">
+              <PropertyRef Name="IdSender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mails_Users1">
+          <End Type="DiaryModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="DiaryModel.Mails" Role="Mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mails">
+              <PropertyRef Name="IdRecipient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notes_Users">
+          <End Type="DiaryModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="DiaryModel.Notes" Role="Notes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notes">
+              <PropertyRef Name="IdWriter" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Status">
+          <End Type="DiaryModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="DiaryModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="IdStastus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Users">
+          <End Type="DiaryModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="DiaryModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="IdCreator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Project">
+          <End Type="DiaryModel.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="DiaryModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="IdProject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Project">
+          <End Type="DiaryModel.Project" Role="Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DiaryModel.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="IdProject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_StatusRequest">
+          <End Type="DiaryModel.StatusRequest" Role="StatusRequest" Multiplicity="1" />
+          <End Type="DiaryModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusRequest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="IdStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Role">
+          <End Type="DiaryModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="DiaryModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Status">
+          <End Type="DiaryModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="DiaryModel.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="IdStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Users">
+          <End Type="DiaryModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="DiaryModel.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="IdExecutor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище DiaryModelContainer" CdmEntityContainer="DiaryEntities">
-          <EntitySetMapping Name="LoginStatus">
-            <EntityTypeMapping TypeName="DiaryModel.LoginStatus">
-              <MappingFragment StoreEntitySet="LoginStatus">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Mails">
-            <EntityTypeMapping TypeName="DiaryModel.Mails">
-              <MappingFragment StoreEntitySet="Mails">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="mail" ColumnName="mail" />
-                <ScalarProperty Name="IdSender" ColumnName="IdSender" />
-                <ScalarProperty Name="IdRecipient" ColumnName="IdRecipient" />
-                <ScalarProperty Name="IdMailStatus" ColumnName="IdMailStatus" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MailStatus">
-            <EntityTypeMapping TypeName="DiaryModel.MailStatus">
-              <MappingFragment StoreEntitySet="MailStatus">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Notes">
-            <EntityTypeMapping TypeName="DiaryModel.Notes">
-              <MappingFragment StoreEntitySet="Notes">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="ContentNote" ColumnName="ContentNote" />
-                <ScalarProperty Name="IdWriter" ColumnName="IdWriter" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Project">
-            <EntityTypeMapping TypeName="DiaryModel.Project">
-              <MappingFragment StoreEntitySet="Project">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Descripshion" ColumnName="Descripshion" />
-                <ScalarProperty Name="IdStastus" ColumnName="IdStastus" />
-                <ScalarProperty Name="IdCreator" ColumnName="IdCreator" />
-                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="DiaryModel.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Status">
-            <EntityTypeMapping TypeName="DiaryModel.Status">
-              <MappingFragment StoreEntitySet="Status">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="DiaryModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Tasks">
-            <EntityTypeMapping TypeName="DiaryModel.Tasks">
-              <MappingFragment StoreEntitySet="Tasks">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IdExecutor" ColumnName="IdExecutor" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Descripshion" ColumnName="Descripshion" />
-                <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
-                <ScalarProperty Name="IdProject" ColumnName="IdProject" />
-                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="DiaryModel.Users">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FIO" ColumnName="FIO" />
-                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="DateLastLogin" ColumnName="DateLastLogin" />
-                <ScalarProperty Name="IdTypeLogin" ColumnName="IdTypeLogin" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище DiaryModel.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище DiaryModel.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище DiaryModel.sp_dropdiagram" />
@@ -800,6 +805,128 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище DiaryModel.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище DiaryModel.sp_upgraddiagrams" />
+          <EntitySetMapping Name="LoginStatus">
+            <EntityTypeMapping TypeName="DiaryModel.LoginStatus">
+              <MappingFragment StoreEntitySet="LoginStatus">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mails">
+            <EntityTypeMapping TypeName="DiaryModel.Mails">
+              <MappingFragment StoreEntitySet="Mails">
+                <ScalarProperty Name="IdMailStatus" ColumnName="IdMailStatus" />
+                <ScalarProperty Name="IdRecipient" ColumnName="IdRecipient" />
+                <ScalarProperty Name="IdSender" ColumnName="IdSender" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MailStatus">
+            <EntityTypeMapping TypeName="DiaryModel.MailStatus">
+              <MappingFragment StoreEntitySet="MailStatus">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notes">
+            <EntityTypeMapping TypeName="DiaryModel.Notes">
+              <MappingFragment StoreEntitySet="Notes">
+                <ScalarProperty Name="IdWriter" ColumnName="IdWriter" />
+                <ScalarProperty Name="ContentNote" ColumnName="ContentNote" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project">
+            <EntityTypeMapping TypeName="DiaryModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="IdCreator" ColumnName="IdCreator" />
+                <ScalarProperty Name="IdStastus" ColumnName="IdStastus" />
+                <ScalarProperty Name="Descripshion" ColumnName="Descripshion" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="DiaryModel.Requests">
+              <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="IdProject" ColumnName="IdProject" />
+                <ScalarProperty Name="Descrip" ColumnName="Descrip" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="DiaryModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="DiaryModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusRequest">
+            <EntityTypeMapping TypeName="DiaryModel.StatusRequest">
+              <MappingFragment StoreEntitySet="StatusRequest">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DiaryModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="DiaryModel.Tasks">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="IdProject" ColumnName="IdProject" />
+                <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
+                <ScalarProperty Name="Descripshion" ColumnName="Descripshion" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IdExecutor" ColumnName="IdExecutor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DiaryModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IdTypeLogin" ColumnName="IdTypeLogin" />
+                <ScalarProperty Name="DateLastLogin" ColumnName="DateLastLogin" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

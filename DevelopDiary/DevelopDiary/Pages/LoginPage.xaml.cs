@@ -118,5 +118,10 @@ namespace DevelopDiary.Pages
         {
             PsbPassword.BorderBrush = new SolidColorBrush(Colors.Black);
         }
+
+        private void BtnRequest_Click(object sender, RoutedEventArgs e)
+        {
+            FrameApp.frmObj.Navigate(new AddRequestPage());
+        }
     }
 }

@@ -32,8 +32,10 @@ namespace DevelopDiary.Classes
         public virtual DbSet<MailStatus> MailStatus { get; set; }
         public virtual DbSet<Notes> Notes { get; set; }
         public virtual DbSet<Project> Project { get; set; }
+        public virtual DbSet<Requests> Requests { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<StatusRequest> StatusRequest { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tasks> Tasks { get; set; }
         public virtual DbSet<Users> Users { get; set; }

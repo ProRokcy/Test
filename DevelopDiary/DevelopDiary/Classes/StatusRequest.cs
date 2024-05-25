@@ -12,27 +12,18 @@ namespace DevelopDiary.Classes
     using System;
     using System.Collections.Generic;
     
-    public partial class Project
+    public partial class StatusRequest
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Project()
+        public StatusRequest()
         {
             this.Requests = new HashSet<Requests>();
-            this.Tasks = new HashSet<Tasks>();
         }
     
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Descripshion { get; set; }
-        public int IdStastus { get; set; }
-        public int IdCreator { get; set; }
-        public Nullable<System.DateTime> Deadline { get; set; }
     
-        public virtual Status Status { get; set; }
-        public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Requests> Requests { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
     }
 }
