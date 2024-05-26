@@ -49,13 +49,21 @@
             <Button x:Name="WriteBtn" Content="Написать" Click="WriteBtn_Click" Width="250"/>
             <Button x:Name="IncomingBtn" Content="Входящие" Click="IncomingBtn_Click" Width="250"/>
         </StackPanel>
+        <TextBlock Text="Ответить на сообщение"
+                   FontSize="45"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkBlue" Grid.Column="1"
+                   VerticalAlignment="Center"/>
 
         <StackPanel Grid.Row="1"
                     Grid.RowSpan="2" Grid.Column="1"
                     VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Адресант:" Width="155" VerticalAlignment="Center"/>
-                <ComboBox x:Name="CmbEmploye" Width="190" />
+                <ComboBox x:Name="CmbEmploye"
+                          TextBoxBase.TextChanged="OnComboboxTextChanged"
+                          IsTextSearchEnabled="False" IsEditable="True"
+                          Width="190" />
             </StackPanel>
             <TextBlock Text="Содержание" HorizontalAlignment="Left"/>
             <TextBox Name="TxbContent" Height="192" Width="838" TextWrapping="Wrap"/>

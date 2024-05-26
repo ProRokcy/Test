@@ -152,5 +152,10 @@
                     HorizontalAlignment="Center">
             <Button Name="BtnMail" Content="Почта" Click="BtnMail_Click"/>
         </StackPanel>
+        <TextBlock Text="Мои задачи"
+                   FontSize="45"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkBlue" Grid.Column="1"
+                   VerticalAlignment="Top" Margin="0,20,0,0"/>
     </Grid>
 </Page>

@@ -66,5 +66,10 @@
             <Button Name="BtnMail" Content="Почта" Click="BtnMail_Click"/>
         </StackPanel>
         <Button x:Name="AddNoteBtn" Content="Создать" Click="AddNoteBtn_Click" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30"/>
+        <TextBlock Text="Создание заметки"
+                   FontSize="45"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkBlue" Grid.Column="1"
+                   VerticalAlignment="Center"/>
     </Grid>
 </Page>

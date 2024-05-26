@@ -40,6 +40,12 @@
                        Foreground="DarkBlue"
                        Name="TxbFio"/>
         </StackPanel>
+        <TextBlock Text="Изменение задачи"
+                   FontSize="45"
+                    Margin="0,20,0,0"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkBlue" Grid.Column="1"
+                   VerticalAlignment="Top"/>
         <StackPanel  
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
@@ -68,7 +74,10 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Выполняющий:" Width="155" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="CmbEmploye" Width="190" />
+                    <ComboBox x:Name="CmbEmploye"
+                          TextBoxBase.TextChanged="OnComboboxTextChanged"
+                          IsTextSearchEnabled="False" IsEditable="True"
+                          Width="190" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

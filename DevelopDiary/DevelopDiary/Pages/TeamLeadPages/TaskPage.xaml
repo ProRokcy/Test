@@ -28,6 +28,12 @@
             Background="Aqua">
 
         </StackPanel>
+        <TextBlock Text="Задачи"
+                   FontSize="45"
+                    Margin="0,20,0,0"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkBlue" Grid.Column="1"
+                   VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                         Grid.Column="0"

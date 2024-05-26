@@ -116,6 +116,11 @@
                     HorizontalAlignment="Center">
             <Button Name="BtnMail" Content="Почта" Click="BtnMail_Click"/>
         </StackPanel>
+        <TextBlock Text="Заметки"
+                   FontSize="45"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkBlue" Grid.Column="1"
+                   VerticalAlignment="Top" Margin="0,20,0,0"/>
         <Button Content="Создать заметку" Width="200" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20" Name="AddNoteBtn" Click="AddNoteBtn_Click"/>
     </Grid>
 </Page>

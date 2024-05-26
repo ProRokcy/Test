@@ -122,5 +122,26 @@ namespace DevelopDiary.Pages.MailPages
                 MessageBox.Show("Критическая работа приложения " + ex.ToString(), "Критическая работа приложения", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void OnComboboxTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var tb = (TextBox)e.OriginalSource;
+            if (tb.SelectionStart != 0)
+            {
+                CmbEmploye.SelectedItem = null; // Если набирается текст сбросить выбраный элемент
+            }
+            if (tb.SelectionStart == 0 && CmbEmploye.SelectedItem == null)
+            {
+                CmbEmploye.IsDropDownOpen = false; // Если сбросили текст и элемент не выбран, сбросить фокус выпадающего списка
+            }
+
+            CmbEmploye.IsDropDownOpen = true;
+            if (CmbEmploye.SelectedItem == null)
+            {
+
+                    CmbEmploye.ItemsSource = OdbConnectHelper.entObj.Users.Where(x => x.FIO.Contains(CmbEmploye.Text)).ToList();
+
+            }
+        }
     }
 }

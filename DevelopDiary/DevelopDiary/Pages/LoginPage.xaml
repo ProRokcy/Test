@@ -46,5 +46,11 @@
                         Margin="50"
                         VerticalAlignment="Top"
                         Click="BtnRequest_Click"/>
+        <TextBlock Text="Авторизация"
+                   FontSize="45"
+                    Margin="0,160,0,0"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkBlue"
+                   VerticalAlignment="Top"/>
     </Grid>
 </Page>
