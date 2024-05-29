@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DevelopDiary.Pages.MailPages;
 using DevelopDiary.Classes;
 
 namespace DevelopDiary.Pages.AdminPages
@@ -36,6 +37,16 @@ namespace DevelopDiary.Pages.AdminPages
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
             FrameApp.frmObj.Navigate(new AddPage());
+        }
+
+        private void ExitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FrameApp.frmObj.Navigate(new LoginPage());
+        }
+
+        private void MailBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FrameApp.frmObj.Navigate(new MainMailPage());
         }
     }
 }

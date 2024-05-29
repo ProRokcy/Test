@@ -42,7 +42,8 @@ namespace DevelopDiary.Pages.EmployePages
             }
 
 
-            filtred = filtred.Where(x => x.Title.Contains(Tbx_serhc.Text) ||
+            filtred = filtred.Where(x => x.Title
+            .Contains(Tbx_serhc.Text) ||
                  x.Descripshion.Contains(Tbx_serhc.Text) && x.IdExecutor == UserControlClass.IdEmploye).ToList();
            
             var sort = filtred.ToList();

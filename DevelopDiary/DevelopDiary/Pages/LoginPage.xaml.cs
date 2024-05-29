@@ -61,7 +61,8 @@ namespace DevelopDiary.Pages
                         var loginUser = OdbConnectHelper.entObj.Users.FirstOrDefault(x => x.Login == TxbLogin.Text);
                         if (loginUser == null)
                         {
-                            MessageBox.Show("Такого пользователя нету!", "Уведомление",
+                            MessageBox.Show("Такого пользователя нету!", 
+                                "Уведомление",
                             MessageBoxButton.OK,
                             MessageBoxImage.Warning);
                              PsbPassword.BorderBrush = new SolidColorBrush(Colors.Red);

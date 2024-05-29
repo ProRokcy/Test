@@ -73,6 +73,10 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        <Button Grid.Row="2" Content="Добавить" Name="AddBtn" Click="AddBtn_Click"/>
+        <StackPanel Grid.Row="2">
+            <Button Grid.Row="2" Content="Добавить" Name="AddBtn" Click="AddBtn_Click"/>
+            <Button Grid.Row="2" Content="Почта" Name="MailBtn" Click="MailBtn_Click"/>
+            <Button Grid.Row="2" Content="Другой пользователь" Name="ExitBtn" Click="ExitBtn_Click" Width="220"/>
+        </StackPanel>
     </Grid>
 </Page>
